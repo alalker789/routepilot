@@ -29,11 +29,31 @@ def log(db,user,z,action,rec):
     db.add(ActivityLog(user_id=user.id,zone_id=z.id,action=action,resource_type="dns_record",resource_name=rec.name,details=f"{action.title()} {rec.type} record"))
 
 @router.get("",response_model=list[RecordOut])
-def list_records(zone_id:int,search:str="",type:str="",user=Depends(current_user),db:Session=Depends(get_db)):
-    zone_or_404(db,zone_id,user); q=db.query(DNSRecord).filter(DNSRecord.zone_id==zone_id)
-    if search:q=q.filter(DNSRecord.name.contains(search.lower()))
-    if type:q=q.filter(DNSRecord.type==type.upper())
-    return q.order_by(DNSRecord.name,DNSRecord.type).all()
+def list_records(
+    zone_id: int,
+    search: str = "",
+    type: str = "",
+    page: int = 1,
+    limit: int = 10,
+    user=Depends(current_user),
+    db: Session = Depends(get_db),
+):
+    zone_or_404(db, zone_id, user)
+
+    q = db.query(DNSRecord).filter(DNSRecord.zone_id == zone_id)
+
+    if search:
+        q = q.filter(DNSRecord.name.contains(search.lower()))
+
+    if type:
+        q = q.filter(DNSRecord.type == type.upper())
+
+    return (
+        q.order_by(DNSRecord.name, DNSRecord.type)
+        .offset((page - 1) * limit)
+        .limit(limit)
+        .all()
+    )
 
 @router.post("",response_model=RecordOut)
 def create_record(zone_id:int,body:RecordIn,user=Depends(current_user),db:Session=Depends(get_db)):
