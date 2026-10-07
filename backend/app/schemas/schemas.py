@@ -34,7 +34,7 @@ class ZoneOut(BaseModel):
 class RecordIn(BaseModel):
     name: str
     type: str
-    ttl: int = Field(default=300, ge=1, le=86400)
+    ttl: int = Field(default=300, ge=1, le=172800)
     value: str
     priority: int | None = Field(default=None, ge=0, le=65535)
     weight: int | None = Field(default=None, ge=0, le=65535)
@@ -43,7 +43,7 @@ class RecordIn(BaseModel):
     @field_validator("type")
     @classmethod
     def valid_type(cls, v):
-        allowed = {"A","AAAA","CNAME","TXT","MX","NS","PTR","SRV","CAA"}
+        allowed = {"A","AAAA","CNAME","TXT","MX","NS","PTR","SRV","CAA","SOA"}
         v = v.upper()
         if v not in allowed: raise ValueError("Unsupported record type")
         return v
