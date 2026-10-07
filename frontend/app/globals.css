@@ -411,9 +411,14 @@ textarea {
 
 .tabs button.tab {
   background: transparent;
-  border: none;
+  border: 0;
+  border-bottom: 3px solid transparent;
   border-radius: 0;
   color: #4f5b66;
+}
+.tabs button.tab.active {
+  color: #0073bb;
+  border-bottom: 3px solid #0073bb;
 }
 
 .tabs button.tab:hover {
