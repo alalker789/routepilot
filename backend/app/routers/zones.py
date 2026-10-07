@@ -15,10 +15,25 @@ def out(z):
     d=ZoneOut.model_validate(z); d.record_count=len(z.records); return d
 
 @router.get("", response_model=list[ZoneOut])
-def list_zones(search:str="", page:int=1, limit:int=10, user:User=Depends(current_user), db:Session=Depends(get_db)):
-    q=db.query(HostedZone).filter(HostedZone.owner_id==user.id)
-    if search: q=q.filter(HostedZone.name.contains(search.lower()))
-    return [out(z) for z in q.order_by(HostedZone.name).offset((page-1)*limit).limit(limit).all()]
+def list_zones(
+    search: str = "",
+    page: int = 1,
+    limit: int = 10,
+    user: User = Depends(current_user),
+    db: Session = Depends(get_db),
+):
+    q = db.query(HostedZone).filter(HostedZone.owner_id == user.id)
+
+    if search:
+        q = q.filter(HostedZone.name.contains(search.lower()))
+
+    return [
+        out(z)
+        for z in q.order_by(HostedZone.name)
+        .offset((page - 1) * limit)
+        .limit(limit)
+        .all()
+    ]
 
 @router.post("", response_model=ZoneOut)
 def create_zone(body:ZoneIn,user=Depends(current_user),db:Session=Depends(get_db)):
