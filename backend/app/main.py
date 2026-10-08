@@ -12,7 +12,7 @@ from .auth import pwd
 app = FastAPI(
     title="RoutePilot API",
     version="1.0.0",
-    openapi_url="/api-schema.json",
+    openapi_url=None,
 )
 
 
