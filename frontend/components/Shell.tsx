@@ -63,9 +63,9 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   return (
     <div className={`app ${darkMode ? 'dark' : ''}`}>
       <header className="topbar">
-        <div className="brand">
+        <Link href="/" className="brand">
           Route<span>Pilot</span>
-        </div>
+        </Link>
 
         <input
           ref={searchRef}
