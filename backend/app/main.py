@@ -38,6 +38,7 @@ app.add_middleware(
     allow_origins=[
         FRONTEND_URL,
         "http://localhost:3000",
+        "https://routepilot-omega.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
