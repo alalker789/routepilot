@@ -5,17 +5,16 @@ import { useRouter } from 'next/navigation';
 import Shell from '../components/Shell';
 import { api } from '../lib/api';
 
-type Zone = {
-  id: number;
-  name: string;
-  zone_type: string;
-  record_count: number;
-  updated_at: string;
+type Stats = {
+  hosted_zones: number;
+  public_zones: number;
+  managed_records: number;
 };
 
 export default function Home() {
   const r = useRouter();
-  const [zones, setZones] = useState<Zone[]>([]);
+
+  const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,27 +23,18 @@ export default function Home() {
       return;
     }
 
-    api('/api/zones')
-      .then((data) => setZones(data))
+    api('/api/zones/stats')
+      .then((data) => setStats(data))
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [r]);
 
-  const hostedZones = zones.length;
-
-  const managedRecords = zones.reduce(
-    (total, zone) => total + (zone.record_count || 0),
-    0
-  );
-
-  const publicZones = zones.filter(
-    (zone) => zone.zone_type === 'Public hosted zone'
-  ).length;
-
   return (
     <Shell>
       <div className="content">
-        <div className="crumb">RoutePilot / Dashboard</div>
+        <div className="crumb">
+          RoutePilot / Dashboard
+        </div>
 
         <div className="heading">
           <h1>DNS console</h1>
@@ -58,21 +48,21 @@ export default function Home() {
           <div className="card">
             <div className="statlabel">Hosted zones</div>
             <div className="statvalue">
-              {loading ? '—' : hostedZones}
+              {loading ? '—' : stats?.hosted_zones ?? 0}
             </div>
           </div>
 
           <div className="card">
             <div className="statlabel">Managed records</div>
             <div className="statvalue">
-              {loading ? '—' : managedRecords}
+              {loading ? '—' : stats?.managed_records ?? 0}
             </div>
           </div>
 
           <div className="card">
             <div className="statlabel">Public zones</div>
             <div className="statvalue">
-              {loading ? '—' : publicZones}
+              {loading ? '—' : stats?.public_zones ?? 0}
             </div>
           </div>
 
@@ -88,7 +78,9 @@ export default function Home() {
         </div>
 
         <div className="card">
-          <h3 style={{ marginTop: 0 }}>Recent activity</h3>
+          <h3 style={{ marginTop: 0 }}>
+            Recent activity
+          </h3>
 
           <p className="muted">
             Changes made in this console are recorded here.
