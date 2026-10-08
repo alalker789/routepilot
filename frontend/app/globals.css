@@ -403,24 +403,146 @@ textarea {
 .pagination .muted {
   font-size: 13px;
 }
-.tabs .tab {
+.tabs button.tab {
   padding: 10px 20px;
   font-size: 14px;
   font-weight: 400;
-}
-
-.tabs button.tab {
   background: transparent;
   border: 0;
   border-bottom: 3px solid transparent;
   border-radius: 0;
   color: #4f5b66;
 }
+
 .tabs button.tab.active {
   color: #0073bb;
-  border-bottom: 3px solid #0073bb;
+  border-bottom-color: #0073bb;
 }
 
 .tabs button.tab:hover {
   background: #f7f8f8;
+}
+/* Dark mode */
+.app.dark {
+  --ink: #e6edf3;
+  --muted: #9aa4b2;
+  --line: #30363d;
+  --bg: #0f141a;
+  --white: #161b22;
+}
+
+.app.dark .main {
+  background: #0f141a;
+}
+
+.app.dark .content {
+  color: #e6edf3;
+}
+
+.app.dark .card,
+.app.dark .tablewrap,
+.app.dark .modal {
+  background: #161b22;
+  border-color: #30363d;
+}
+
+.app.dark .table th {
+  background: #21262d;
+  color: #c9d1d9;
+  border-color: #30363d;
+}
+
+.app.dark .table td {
+  border-color: #30363d;
+}
+
+.app.dark .search,
+.app.dark .field,
+.app.dark .textarea,
+.app.dark .select {
+  background: #0d1117;
+  color: #e6edf3;
+  border-color: #484f58;
+}
+
+.app.dark .search::placeholder,
+.app.dark .field::placeholder,
+.app.dark .textarea::placeholder {
+  color: #8b949e;
+}
+
+.app.dark .btn {
+  background: #21262d;
+  color: #e6edf3;
+  border-color: #484f58;
+}
+
+.app.dark .btn:hover {
+  background: #30363d;
+}
+
+.app.dark .btn.primary {
+  background: #0073bb;
+  color: #fff;
+  border-color: #0073bb;
+}
+
+.app.dark .tabs {
+  border-color: #30363d;
+}
+
+.app.dark .tabs button.tab {
+  color: #9aa4b2;
+}
+
+.app.dark .tabs button.tab.active {
+  color: #58a6ff;
+  border-bottom-color: #58a6ff;
+}
+
+.app.dark .tabs button.tab:hover {
+  background: #21262d;
+}
+
+.app.dark .crumb {
+  color: #9aa4b2;
+}
+
+.app.dark .crumb span,
+.app.dark .link {
+  color: #58a6ff;
+}
+
+.app.dark .sub,
+.app.dark .muted,
+.app.dark .statlabel,
+.app.dark .hint {
+  color: #8b949e;
+}
+
+.app.dark .pill {
+  background: #21262d;
+  border-color: #484f58;
+  color: #c9d1d9;
+}
+
+.app.dark .pagination {
+  border-color: #30363d;
+}
+
+.themeToggle {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font-size: 19px;
+  padding: 3px 6px;
+}
+
+.themeToggle:hover {
+  opacity: 0.75;
+}
+::selection {
+  background: #ff9900;
+  color: #ffffff;
 }
